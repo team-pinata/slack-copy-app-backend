@@ -1,0 +1,11 @@
+# project work files.
+node_modules
+bin
+logs
+
+# IDE
+.vscode
+.idea
+
+# other
+.DS_Store

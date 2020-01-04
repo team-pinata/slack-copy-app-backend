@@ -1,0 +1,28 @@
+openapi: 3.0.0
+info:
+  title: Slack-Copy-App
+  version: 0.0.1
+servers:
+- url: /
+paths:
+
+  /ping:
+    get:
+      operationId: pingGET
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pong'
+
+components:
+  schemas:
+    Pong:
+      type: object
+      properties:
+        pong:
+          type: boolean
+      example:
+        pong: true

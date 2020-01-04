@@ -1,0 +1,53 @@
+{
+  "env": {
+    "node": true,
+    "browser": true
+  },
+  "extends": ["airbnb-base", "plugin:prettier/recommended"],
+  "parser": "babel-eslint",
+  "plugins": ["prettier"],
+  "settings": {
+    "import/resolver": {
+      "alias": {
+        "map": [["~", "./src"]],
+        "extensions": [".js"]
+      }
+    }
+  },
+  "rules": {
+    "no-unused-vars": "off",
+    "sort-imports": ["error", {
+      "ignoreDeclarationSort": true
+    }],
+    "import/no-extraneous-dependencies": [
+      "error",
+      {
+        "devDependencies": ["**/*.test.js"],
+        "optionalDependencies": false
+      }
+    ],
+    "import/extensions": ["error", "ignorePackages", {
+      "js": "never"
+    }],
+    "import/order": ["error", {
+      "newlines-between": "never",
+      "alphabetize": {
+        "order": "asc"
+      },
+      "groups": [
+        "builtin",
+        ["external", "internal"],
+        ["index", "parent", "sibling"]
+      ]
+    }],
+    "prettier/prettier": [
+      "error",
+      {
+        "singleQuote": true,
+        "semi": true,
+        "trailingComma": "all",
+        "arrowParens": "always"
+      }
+    ]
+  }
+}
