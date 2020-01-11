@@ -8,7 +8,7 @@ import swaggerUI from 'swagger-ui-express';
 import yamljs from 'yamljs';
 import openapiRouter from './utils/openapiRouter';
 
-class ExpressServer {
+export default class ExpressServer {
   constructor(port, openApiYaml) {
     this.port = port;
     this.app = express();
@@ -24,8 +24,11 @@ class ExpressServer {
     this.app.use(express.urlencoded({ extended: false }));
     this.app.use(cookieParser());
 
-    this.app.use('/spec', express.static(path.join(__dirname, 'api')));
-    this.app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(this.schema));
+    // 本番稼働時はドキュメント公開はしない
+    if (process.env.NODE_ENV !== 'production') {
+      this.app.use('/spec', express.static(path.join(__dirname, 'api')));
+      this.app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(this.schema));
+    }
 
     new OpenApiValidator({
       apiSpec: this.openApiPath,
@@ -70,5 +73,3 @@ class ExpressServer {
     }
   }
 }
-
-module.exports = ExpressServer;
