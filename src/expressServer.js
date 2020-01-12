@@ -6,6 +6,7 @@ import express from 'express';
 import { OpenApiValidator } from 'express-openapi-validator';
 import swaggerUI from 'swagger-ui-express';
 import yamljs from 'yamljs';
+import logger from './logger';
 import openapiRouter from './utils/openapiRouter';
 
 export default class ExpressServer {
@@ -14,10 +15,9 @@ export default class ExpressServer {
     this.app = express();
     this.openApiPath = openApiYaml;
     this.schema = yamljs.load(openApiYaml);
-    this.setupMiddleware();
   }
 
-  setupMiddleware() {
+  async setupMiddleware() {
     // this.setupAllowedMedia();
     this.app.use(cors());
     this.app.use(express.json());
@@ -30,9 +30,9 @@ export default class ExpressServer {
       this.app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(this.schema));
     }
 
-    new OpenApiValidator({
+    await new OpenApiValidator({
       apiSpec: this.openApiPath,
-    }).installSync(this.app);
+    }).install(this.app);
 
     this.app.use(openapiRouter());
   }
@@ -59,8 +59,7 @@ export default class ExpressServer {
   async launch() {
     this.addErrorHandler();
     this.server = await this.app.listen(this.port, () => {
-      // eslint-disable-next-line
-      console.log(`server running on port ${this.port}`);
+      logger.info(`server running on port ${this.port}`);
     });
     return this.server;
   }
@@ -68,8 +67,7 @@ export default class ExpressServer {
   async close() {
     if (this.server !== undefined) {
       await this.server.close();
-      // eslint-disable-next-line
-      console.log(`Server on port ${this.port} shut down`);
+      logger.info(`Server on port ${this.port} shut down`);
     }
   }
 }

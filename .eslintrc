@@ -23,7 +23,9 @@
       "error",
       {
         "devDependencies": ["**/*.test.js"],
-        "optionalDependencies": false
+        "optionalDependencies": false,
+        "peerDependencies": false,
+        "packageDir": "./"
       }
     ],
     "import/extensions": ["error", "ignorePackages", {
