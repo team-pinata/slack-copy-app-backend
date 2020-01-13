@@ -5,8 +5,7 @@ info:
 servers:
 - url: /
 paths:
-
-  /ping:
+  /users:
     get:
       responses:
         200:
@@ -14,14 +13,57 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Pong'
+                title: GetUsersResponse
+                type: object
+                properties:
+                  users:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/User'
+
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DraftUser'
+      responses:
+        201:
+          description: OK
+          headers:
+            Location:
+              schema:
+                type: string
+                description: 作成したリソースのURI
 
 components:
   schemas:
-    Pong:
+    DraftUser:
       type: object
       properties:
-        pong:
-          type: boolean
-      example:
-        pong: true
+        name:
+          description: ユーザー名
+          type: string
+        email:
+          description: メールアドレス
+          type: string
+      required:
+        - name
+        - email
+
+    User:
+      type: object
+      properties:
+        id:
+          description: ユーザー識別子
+          type: string
+        name:
+          description: ユーザー名
+          type: string
+        email:
+          description: メールアドレス
+          type: string
+      required:
+        - id
+        - name
+        - email

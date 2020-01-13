@@ -2,5 +2,6 @@
 
 /**/*
 /*
-!controllers/*
+!controllers/DefaultController.js
+!controllers/index.js
 !api/*

@@ -5,8 +5,12 @@ class DefaultController {
     this.service = Service;
   }
 
-  async pingGET(request, response) {
-    await Controller.handleRequest(request, response, this.service.pingGET);
+  async usersGET(request, response) {
+    await Controller.handleRequest(request, response, this.service.usersGET);
+  }
+
+  async usersPOST(request, response) {
+    await Controller.handleRequest(request, response, this.service.usersPOST);
   }
 
 }

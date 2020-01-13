@@ -8,6 +8,11 @@ class Controller {
      * send 200 and the payload as received in this method.
      */
     response.status(payload.code || 200);
+    if (payload.headers instanceof Object) {
+      Object.entries(payload.headers).forEach(([key, value]) => {
+        response.setHeader(key, value);
+      });
+    }
     const responsePayload = payload.payload !== undefined ? payload.payload : payload;
     if (responsePayload instanceof Object) {
       response.json(responsePayload);

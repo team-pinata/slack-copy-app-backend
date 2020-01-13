@@ -5,24 +5,85 @@ info:
 servers:
 - url: /
 paths:
-  /ping:
+  /users:
     get:
-      operationId: pingGET
+      operationId: usersGET
       responses:
         200:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Pong'
+                $ref: '#/components/schemas/GetUsersResponse'
           description: OK
+      x-openapi-router-controller: DefaultController
+      x-openapi-router-service: DefaultService
+    post:
+      operationId: usersPOST
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DraftUser'
+      responses:
+        201:
+          description: OK
+          headers:
+            Location:
+              explode: false
+              schema:
+                description: 作成したリソースのURI
+                type: string
+              style: simple
       x-openapi-router-controller: DefaultController
       x-openapi-router-service: DefaultService
 components:
   schemas:
-    Pong:
+    DraftUser:
       example:
-        pong: true
+        name: name
+        email: email
       properties:
-        pong:
-          type: boolean
+        name:
+          description: ユーザー名
+          type: string
+        email:
+          description: メールアドレス
+          type: string
+      required:
+      - email
+      - name
       type: object
+    User:
+      example:
+        name: name
+        id: id
+        email: email
+      properties:
+        id:
+          description: ユーザー識別子
+          type: string
+        name:
+          description: ユーザー名
+          type: string
+        email:
+          description: メールアドレス
+          type: string
+      required:
+      - email
+      - id
+      - name
+      type: object
+    GetUsersResponse:
+      example:
+        users:
+        - name: name
+          id: id
+          email: email
+        - name: name
+          id: id
+          email: email
+      properties:
+        users:
+          items:
+            $ref: '#/components/schemas/User'
+          type: array

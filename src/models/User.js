@@ -7,11 +7,12 @@ export const init = (sequelize) => {
     {
       name: {
         type: Sequelize.STRING,
-        allownull: false,
+        allowNull: false,
+        unique: true,
       },
       email: {
         type: Sequelize.STRING,
-        allownull: false,
+        allowNull: false,
       },
     },
     {
